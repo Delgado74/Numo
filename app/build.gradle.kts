@@ -12,8 +12,8 @@ android {
         applicationId = "com.electricdreams.numo"
         minSdk = 24
         targetSdk = 35
-        versionCode = 15
-        versionName = "1.5"
+        versionCode = 17
+        versionName = "1.6"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -150,6 +150,9 @@ dependencies {
     
     // Flexbox layout for tag-based category selection
     implementation("com.google.android.flexbox:flexbox:3.0.0")
+    
+    // Custom Tabs for embedded web links
+    implementation("androidx.browser:browser:1.8.0")
 }
 
 tasks.withType<Test>().configureEach {

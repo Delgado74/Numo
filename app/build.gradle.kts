@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace = "com.electricdreams.numo"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.electricdreams.numo"
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 23
         versionName = "1.8"
 
@@ -102,7 +102,7 @@ dependencies {
     // Testing
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.mockito:mockito-core:5.12.0")
-    testImplementation("org.robolectric:robolectric:4.14.1")
+    testImplementation("org.robolectric:robolectric:4.16")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
     testImplementation("net.bytebuddy:byte-buddy:1.14.12")
     testImplementation("com.squareup.okhttp3:mockwebserver:4.12.0")
@@ -135,7 +135,7 @@ dependencies {
     implementation("com.google.zxing:core:3.5.3")
 
     // CDK Kotlin bindings
-    implementation("org.cashudevkit:cdk-android:0.17.2-rc.1")
+    implementation("org.cashudevkit:cdk-android:0.18.0-rc.0")
     
     // ML Kit Barcode Scanning
     implementation("com.google.mlkit:barcode-scanning:17.3.0")
@@ -156,6 +156,10 @@ dependencies {
 }
 
 tasks.withType<Test>().configureEach {
+    javaLauncher = javaToolchains.launcherFor {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+
     configure<org.gradle.testing.jacoco.plugins.JacocoTaskExtension> {
         isIncludeNoLocationClasses = true
         excludes = listOf("jdk.internal.*")

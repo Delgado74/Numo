@@ -39,9 +39,10 @@ jobs:
       - name: Build debug APK
         run: ./gradlew assembleDebug --stacktrace --no-daemon --console=plain
 
-      - name: Upload APK artifact
+      - name: Upload arm64-v8a APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: app-debug-${{ github.run_number }}
-          path: app/build/outputs/apk/debug/*.apk
+          name: app-debug-arm64-${{ github.run_number }}
+          path: app/build/outputs/apk/debug/*arm64-v8a*.apk
           retention-days: 3
+          if-no-files-found: error

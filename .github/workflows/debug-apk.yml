@@ -6,7 +6,15 @@ on:
       ref:
         description: 'Branch or tag to build'
         required: true
+        type: choice
         default: 'feat/german-language'
+        options:
+          - feat/german-language
+          - feature/pos-mint-indicator
+          - fix/tip-custom-toggle-sats
+          - fix/tip-keypad-display
+          - docs/fiat-currency-apis
+          - main
 
 permissions:
   contents: read

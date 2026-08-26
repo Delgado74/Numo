@@ -1,10 +1,10 @@
 package com.electricdreams.numo.feature.settings
 
 import android.widget.EditText
-import androidx.appcompat.widget.SwitchCompat
 import androidx.test.core.app.ActivityScenario
 import com.electricdreams.numo.R
 import com.electricdreams.numo.core.prefs.PreferenceStore
+import com.google.android.material.materialswitch.MaterialSwitch
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -19,13 +19,13 @@ class BtcPaySettingsActivityTest {
     @Test
     fun `loads and saves settings correctly`() {
         val scenario = ActivityScenario.launch(BtcPaySettingsActivity::class.java)
-        
+
         scenario.onActivity { activity ->
             // Simulate user input
             val serverUrlInput = activity.findViewById<EditText>(R.id.btcpay_server_url_input)
             val apiKeyInput = activity.findViewById<EditText>(R.id.btcpay_api_key_input)
             val storeIdInput = activity.findViewById<EditText>(R.id.btcpay_store_id_input)
-            val enableSwitch = activity.findViewById<SwitchCompat>(R.id.btcpay_enable_switch)
+            val enableSwitch = activity.findViewById<MaterialSwitch>(R.id.btcpay_enable_switch)
 
             // Set values
             serverUrlInput.setText("https://test.btcpay.com")

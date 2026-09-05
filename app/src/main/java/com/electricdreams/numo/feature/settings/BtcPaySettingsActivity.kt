@@ -5,13 +5,12 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
-import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SwitchCompat
+import com.google.android.material.materialswitch.MaterialSwitch
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.electricdreams.numo.R
@@ -20,6 +19,7 @@ import com.electricdreams.numo.core.payment.BtcPayAppsService
 import com.electricdreams.numo.core.payment.BtcPayPosApp
 import com.electricdreams.numo.core.prefs.PreferenceStore
 import com.electricdreams.numo.feature.enableEdgeToEdgeWithPill
+import com.electricdreams.numo.ui.components.NumoTopBar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit
 
 class BtcPaySettingsActivity : AppCompatActivity() {
 
-    private lateinit var enableSwitch: SwitchCompat
+    private lateinit var enableSwitch: MaterialSwitch
     private lateinit var serverUrlInput: EditText
     private lateinit var apiKeyInput: EditText
     private lateinit var storeIdInput: EditText
@@ -38,7 +38,7 @@ class BtcPaySettingsActivity : AppCompatActivity() {
     private lateinit var posAppCard: View
     private lateinit var posAppSubtitle: TextView
 
-    private var connectionTestPassed = false
+    private var isTestingConnection = false
     private var isLoadingSettings = false
 
     companion object {
@@ -62,7 +62,7 @@ class BtcPaySettingsActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
-        findViewById<ImageButton>(R.id.back_button).setOnClickListener {
+        findViewById<NumoTopBar>(R.id.top_bar).onNavClick {
             onBackPressedDispatcher.onBackPressed()
         }
 
@@ -104,16 +104,8 @@ class BtcPaySettingsActivity : AppCompatActivity() {
         }
 
         enableSwitch.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked && !connectionTestPassed) {
-                enableSwitch.isChecked = false
-                testConnection(onSuccess = {
-                    enableSwitch.isChecked = true
-                    updatePosVisibility()
-                })
-            } else {
-                PreferenceStore.app(this).putBoolean(KEY_ENABLED, isChecked)
-                updatePosVisibility()
-            }
+            PreferenceStore.app(this).putBoolean(KEY_ENABLED, isChecked)
+            updatePosVisibility()
         }
 
         val fieldWatcher = object : TextWatcher {
@@ -121,7 +113,6 @@ class BtcPaySettingsActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
             override fun afterTextChanged(s: Editable?) {
                 if (isLoadingSettings) return
-                connectionTestPassed = false
                 updateToggleEnabled()
                 // Clear POS selection — it belongs to a different server/store.
                 clearPosSelection()
@@ -149,8 +140,7 @@ class BtcPaySettingsActivity : AppCompatActivity() {
         isLoadingSettings = false
 
         val alreadyEnabled = prefs.getBoolean(KEY_ENABLED, false)
-        if (alreadyEnabled && hasAllFields()) connectionTestPassed = true
-        val canEnable = hasAllFields() && connectionTestPassed
+        val canEnable = hasAllFields()
         enableSwitch.isEnabled = canEnable
         enableSwitch.isChecked = canEnable && alreadyEnabled
 
@@ -242,7 +232,7 @@ class BtcPaySettingsActivity : AppCompatActivity() {
             .show()
     }
 
-    private fun testConnection(onSuccess: (() -> Unit)? = null) {
+    private fun testConnection() {
         val serverUrl = serverUrlInput.text.toString().trim().trimEnd('/')
         val apiKey = apiKeyInput.text.toString().trim()
         val storeId = storeIdInput.text.toString().trim()
@@ -252,7 +242,9 @@ class BtcPaySettingsActivity : AppCompatActivity() {
             testConnectionStatus.setTextColor(ContextCompat.getColor(this, R.color.color_error))
             return
         }
+        if (isTestingConnection) return
 
+        isTestingConnection = true
         testConnectionStatus.text = getString(R.string.btcpay_test_connecting)
         testConnectionStatus.setTextColor(ContextCompat.getColor(this, R.color.color_text_secondary))
 
@@ -284,10 +276,8 @@ class BtcPaySettingsActivity : AppCompatActivity() {
                 }
             }
 
+            isTestingConnection = false
             if (result.isSuccess) {
-                connectionTestPassed = true
-                updateToggleEnabled()
-                onSuccess?.invoke()
                 testConnectionStatus.text = getString(R.string.btcpay_test_success)
                 testConnectionStatus.setTextColor(ContextCompat.getColor(this@BtcPaySettingsActivity, R.color.color_success_green))
             } else {

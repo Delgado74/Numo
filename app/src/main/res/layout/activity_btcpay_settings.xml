@@ -1,102 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.electricdreams.numo.ui.components.SettingsPageLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/color_bg_white">
+    android:layout_height="match_parent">
 
-    <!-- Top Bar -->
-    <LinearLayout
-        android:id="@+id/top_bar"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingHorizontal="8dp"
-        android:elevation="1dp"
-        android:background="@color/color_bg_white"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent">
 
-        <ImageButton
-            android:id="@+id/back_button"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_chevron_back"
-            android:contentDescription="@string/common_back"
-            app:tint="@color/color_text_primary" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/btcpay_settings_title"
-            android:textSize="20sp"
-            android:textColor="@color/color_text_primary"
-            android:fontFamily="sans-serif-medium"
-            android:textAlignment="center" />
-
-        <!-- Spacer to balance layout -->
-        <View
-            android:layout_width="48dp"
-            android:layout_height="48dp" />
-    </LinearLayout>
-
-    <!-- Scrollable Content -->
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:fillViewport="true"
-        android:background="@color/color_bg_surface"
-        app:layout_constraintTop_toBottomOf="@id/top_bar"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <LinearLayout
+        <com.electricdreams.numo.ui.components.NumoTopBar
+            android:id="@+id/top_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingHorizontal="20dp"
-            android:paddingTop="16dp"
-            android:paddingBottom="32dp">
+            app:layout_constraintTop_toTopOf="parent"
+            app:topBarTitle="@string/btcpay_settings_title"
+            android:minHeight="64dp"
+            app:topBarSettingsStyle="true" />
 
-            <!-- ==================== -->
-            <!-- ENABLE TOGGLE CARD  -->
-            <!-- ==================== -->
-            <androidx.cardview.widget.CardView
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:clipToPadding="false"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/top_bar">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="@color/color_bg_card"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="0dp">
+                android:orientation="vertical"
+                android:paddingBottom="24dp"
+                android:paddingHorizontal="@dimen/settings_page_margin">
 
                 <LinearLayout
                     android:id="@+id/enable_toggle_row"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackground"
+                    android:layout_marginTop="@dimen/space_l"
+                    android:background="@drawable/bg_settings_group"
                     android:clickable="true"
                     android:focusable="true"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:padding="20dp">
+                    android:clipToOutline="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:paddingHorizontal="0dp"
+                    android:paddingVertical="@dimen/settings_row_padding"
+                    android:minHeight="@dimen/settings_switch_height"
+                    android:screenReaderFocusable="true">
 
-                    <!-- Icon -->
-                    <FrameLayout
-                        android:layout_width="44dp"
-                        android:layout_height="44dp"
-                        android:layout_marginEnd="16dp"
-                        android:background="@drawable/bg_circle"
-                        android:backgroundTint="#E3F2FD">
-
-                        <ImageView
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/ic_link"
-                            app:tint="@color/color_accent_blue" />
-                    </FrameLayout>
-
-                    <!-- Text -->
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -106,185 +59,147 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-medium"
                             android:text="@string/btcpay_enable_title"
-                            android:textColor="@color/color_text_primary"
-                            android:textSize="17sp" />
+                            android:textAppearance="@style/Text.RowTitle" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
+                            android:layout_marginTop="@dimen/settings_row_subtitle_gap"
                             android:text="@string/btcpay_enable_subtitle"
-                            android:textColor="@color/color_text_secondary"
-                            android:textSize="14sp" />
+                            android:textAppearance="@style/Text.SettingsCaption" />
 
                     </LinearLayout>
 
-                    <androidx.appcompat.widget.SwitchCompat
+                    <com.google.android.material.materialswitch.MaterialSwitch
                         android:id="@+id/btcpay_enable_switch"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:minHeight="48dp"
+                        android:contentDescription="@string/btcpay_enable_title" />
 
                 </LinearLayout>
 
-            </androidx.cardview.widget.CardView>
-
-            <!-- ==================== -->
-            <!-- CONNECTION SECTION   -->
-            <!-- ==================== -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="28dp"
-                android:layout_marginBottom="12dp"
-                android:fontFamily="sans-serif"
-                android:text="@string/btcpay_section_connection"
-                android:textAllCaps="true"
-                android:textColor="@color/color_text_secondary"
-                android:textSize="13sp"
-                android:letterSpacing="0.03" />
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardBackgroundColor="@color/color_bg_white"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="0dp">
+                <TextView
+                    android:text="@string/btcpay_section_connection"
+                    style="@style/Widget.Numo.SettingsSectionTitle"
+                    android:textAllCaps="false"
+                    android:layout_marginTop="@dimen/settings_section_gap"
+                    android:accessibilityHeading="true" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="20dp">
+                    android:background="@drawable/bg_settings_group"
+                    android:clipToOutline="true"
+                    android:paddingHorizontal="0dp"
+                    android:paddingVertical="@dimen/settings_row_padding">
 
-                    <!-- Server URL -->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:fontFamily="sans-serif-medium"
-                        android:text="@string/btcpay_server_url_label"
-                        android:textColor="@color/color_text_primary"
-                        android:textSize="15sp" />
-
-                    <EditText
-                        android:id="@+id/btcpay_server_url_input"
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.Numo.SettingsTextInput"
                         android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:background="@drawable/bg_outlined_input"
-                        android:fontFamily="sans-serif"
-                        android:hint="@string/btcpay_server_url_hint"
-                        android:inputType="textUri"
-                        android:paddingHorizontal="20dp"
-                        android:textColor="@color/color_text_primary"
-                        android:textColorHint="@color/color_text_tertiary"
-                        android:textSize="16sp" />
-
-                    <!-- API Key -->
-                    <TextView
-                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginBottom="8dp"
-                        android:fontFamily="sans-serif-medium"
-                        android:text="@string/btcpay_api_key_label"
-                        android:textColor="@color/color_text_primary"
-                        android:textSize="15sp" />
+                        android:hint="@string/btcpay_server_url_label"
+                        android:layout_marginTop="12dp">
 
-                    <EditText
-                        android:id="@+id/btcpay_api_key_input"
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/btcpay_server_url_input"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif"
+                            android:inputType="textUri"
+                            android:textColor="@color/color_text_primary"
+                            android:textColorHint="?attr/colorOnSurfaceVariant"
+                            android:textAppearance="@style/Text.SettingsInput"
+                            android:minHeight="56dp"
+                            android:paddingTop="16dp"
+                            android:paddingBottom="16dp"
+                            android:padding="@dimen/settings_row_padding" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.Numo.SettingsTextInput"
                         android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:background="@drawable/bg_outlined_input"
-                        android:fontFamily="sans-serif"
-                        android:hint="@string/btcpay_api_key_hint"
-                        android:inputType="textPassword"
-                        android:paddingHorizontal="20dp"
-                        android:textColor="@color/color_text_primary"
-                        android:textColorHint="@color/color_text_tertiary"
-                        android:textSize="16sp" />
-
-                    <!-- Store ID -->
-                    <TextView
-                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginBottom="8dp"
-                        android:fontFamily="sans-serif-medium"
-                        android:text="@string/btcpay_store_id_label"
-                        android:textColor="@color/color_text_primary"
-                        android:textSize="15sp" />
+                        android:hint="@string/btcpay_api_key_label"
+                        android:layout_marginTop="12dp"
+                        app:endIconMode="password_toggle">
 
-                    <EditText
-                        android:id="@+id/btcpay_store_id_input"
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/btcpay_api_key_input"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif"
+                            android:inputType="textPassword"
+                            android:textColor="@color/color_text_primary"
+                            android:textColorHint="?attr/colorOnSurfaceVariant"
+                            android:textAppearance="@style/Text.SettingsInput"
+                            android:minHeight="56dp"
+                            android:paddingTop="16dp"
+                            android:paddingBottom="16dp"
+                            android:padding="@dimen/settings_row_padding" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.Numo.SettingsTextInput"
                         android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:background="@drawable/bg_outlined_input"
-                        android:fontFamily="sans-serif"
-                        android:hint="@string/btcpay_store_id_hint"
-                        android:inputType="text"
-                        android:paddingHorizontal="20dp"
-                        android:textColor="@color/color_text_primary"
-                        android:textColorHint="@color/color_text_tertiary"
-                        android:textSize="16sp" />
+                        android:layout_height="wrap_content"
+                        android:hint="@string/btcpay_store_id_label"
+                        android:layout_marginTop="12dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/btcpay_store_id_input"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif"
+                            android:inputType="text"
+                            android:textColor="@color/color_text_primary"
+                            android:textColorHint="?attr/colorOnSurfaceVariant"
+                            android:textAppearance="@style/Text.SettingsInput"
+                            android:minHeight="56dp"
+                            android:paddingTop="16dp"
+                            android:paddingBottom="16dp"
+                            android:padding="@dimen/settings_row_padding" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
 
                 </LinearLayout>
 
-            </androidx.cardview.widget.CardView>
-
-            <!-- ==================== -->
-            <!-- TEST CONNECTION      -->
-            <!-- ==================== -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="28dp"
-                android:layout_marginBottom="12dp"
-                android:fontFamily="sans-serif"
-                android:text="@string/btcpay_section_test"
-                android:textAllCaps="true"
-                android:textColor="@color/color_text_secondary"
-                android:textSize="13sp"
-                android:letterSpacing="0.03" />
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardBackgroundColor="@color/color_bg_card"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="0dp">
+                <TextView
+                    android:text="@string/btcpay_section_test"
+                    style="@style/Widget.Numo.SettingsSectionTitle"
+                    android:textAllCaps="false"
+                    android:layout_marginTop="@dimen/settings_section_gap"
+                    android:accessibilityHeading="true" />
 
                 <LinearLayout
                     android:id="@+id/test_connection_row"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackground"
+                    android:background="@drawable/bg_settings_group"
                     android:clickable="true"
                     android:focusable="true"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:padding="20dp">
+                    android:clipToOutline="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:paddingHorizontal="0dp"
+                    android:paddingVertical="@dimen/settings_row_padding"
+                    android:minHeight="@dimen/settings_switch_height"
+                    android:screenReaderFocusable="true">
 
-                    <!-- Icon -->
-                    <FrameLayout
-                        android:layout_width="44dp"
-                        android:layout_height="44dp"
-                        android:layout_marginEnd="16dp"
-                        android:background="@drawable/bg_circle"
-                        android:backgroundTint="#FFF3E0">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="@dimen/settings_row_icon_gap"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_link"
+                        app:tint="?attr/colorPrimary"
+                        android:padding="@dimen/settings_icon_padding" />
 
-                        <ImageView
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/ic_link"
-                            app:tint="@color/color_bitcoin_orange" />
-                    </FrameLayout>
-
-                    <!-- Text -->
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -294,120 +209,107 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-medium"
                             android:text="@string/btcpay_test_connection_title"
-                            android:textColor="@color/color_text_primary"
-                            android:textSize="17sp" />
+                            android:textAppearance="@style/Text.RowTitle" />
 
                         <TextView
                             android:id="@+id/test_connection_status"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
+                            android:layout_marginTop="@dimen/settings_row_subtitle_gap"
                             android:text="@string/btcpay_test_connection_subtitle"
-                            android:textColor="@color/color_text_secondary"
-                            android:textSize="14sp" />
+                            android:textAppearance="@style/Text.SettingsCaption" />
 
                     </LinearLayout>
 
-                    <!-- Chevron -->
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
+                        android:importantForAccessibility="no"
                         android:src="@drawable/ic_chevron_forward"
                         app:tint="@color/color_text_tertiary" />
 
                 </LinearLayout>
 
-            </androidx.cardview.widget.CardView>
-
-            <!-- ==================== -->
-            <!-- POINT OF SALE        -->
-            <!-- ==================== -->
-            <TextView
-                android:id="@+id/pos_section_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="28dp"
-                android:layout_marginBottom="12dp"
-                android:fontFamily="sans-serif"
-                android:text="@string/btcpay_section_pos"
-                android:textAllCaps="true"
-                android:textColor="@color/color_text_secondary"
-                android:textSize="13sp"
-                android:letterSpacing="0.03"
-                android:visibility="gone" />
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/pos_app_card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:cardBackgroundColor="@color/color_bg_card"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="0dp">
+                <TextView
+                    android:id="@+id/pos_section_label"
+                    android:text="@string/btcpay_section_pos"
+                    style="@style/Widget.Numo.SettingsSectionTitle"
+                    android:visibility="gone"
+                    android:textAllCaps="false"
+                    android:layout_marginTop="@dimen/settings_section_gap"
+                    android:accessibilityHeading="true" />
 
                 <LinearLayout
-                    android:id="@+id/pos_app_row"
+                    android:id="@+id/pos_app_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="20dp">
-
-                    <FrameLayout
-                        android:layout_width="44dp"
-                        android:layout_height="44dp"
-                        android:layout_marginEnd="16dp"
-                        android:background="@drawable/bg_circle"
-                        android:backgroundTint="#E8F5E9">
-
-                        <ImageView
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/ic_shopping_bag"
-                            app:tint="#2E7D32" />
-                    </FrameLayout>
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    android:background="@drawable/bg_settings_group"
+                    android:clipToOutline="true"
+                    android:padding="0dp"
+                    android:minHeight="@dimen/settings_switch_height">
 
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:id="@+id/pos_app_row"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:background="@drawable/bg_row_ripple"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="0dp"
+                        android:paddingVertical="@dimen/row_padding_vertical"
+                        android:screenReaderFocusable="true">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-medium"
-                            android:text="@string/btcpay_pos_app_title"
-                            android:textColor="@color/color_text_primary"
-                            android:textSize="17sp" />
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_marginEnd="@dimen/settings_row_icon_gap"
+                            android:importantForAccessibility="no"
+                            android:src="@drawable/ic_shopping_bag"
+                            app:tint="?attr/colorPrimary"
+                            android:padding="@dimen/settings_icon_padding" />
 
-                        <TextView
-                            android:id="@+id/pos_app_subtitle"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:text="@string/btcpay_pos_app_subtitle_none"
-                            android:textColor="@color/color_text_secondary"
-                            android:textSize="14sp" />
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/btcpay_pos_app_title"
+                                android:textAppearance="@style/Text.RowTitle" />
+
+                            <TextView
+                                android:id="@+id/pos_app_subtitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/settings_row_subtitle_gap"
+                                android:text="@string/btcpay_pos_app_subtitle_none"
+                                android:textAppearance="@style/Text.SettingsCaption" />
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:importantForAccessibility="no"
+                            android:src="@drawable/ic_chevron_forward"
+                            app:tint="@color/color_text_tertiary" />
+
                     </LinearLayout>
 
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/ic_chevron_forward"
-                        app:tint="@color/color_text_tertiary" />
-
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
 
-        </LinearLayout>
-    </ScrollView>
+            </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.electricdreams.numo.ui.components.SettingsPageLayout>

@@ -12,8 +12,8 @@ android {
         applicationId = "com.electricdreams.numo"
         minSdk = 24
         targetSdk = 36
-        versionCode = 23
-        versionName = "1.8"
+        versionCode = 24
+        versionName = "1.9"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -78,6 +78,8 @@ android {
     testOptions {
         unitTests {
             isIncludeAndroidResources = true
+            // Opt in to the onboarding preview PNGs: ./gradlew testDebugUnitTest -Dnumo.previews=true
+            all { it.systemProperty("numo.previews", System.getProperty("numo.previews") ?: "false") }
         }
     }
 
@@ -92,7 +94,7 @@ dependencies {
 
     // AndroidX Libraries
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.11.0")
+    implementation("com.google.android.material:material:1.14.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.gridlayout:gridlayout:1.0.0")
     implementation("androidx.viewpager2:viewpager2:1.0.0")
